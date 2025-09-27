@@ -28,7 +28,7 @@ const Contact: React.FC = () => {
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-bold text-center text-white mb-16">
-            Let's Work Together
+            Let's Build.
           </h2>
           
           <div className="grid md:grid-cols-2 gap-12">
@@ -46,7 +46,7 @@ const Contact: React.FC = () => {
                   <Mail className="w-6 h-6 text-orange-500 mr-4" />
                   <div>
                     <p className="font-medium text-white">Email</p>
-                    <a href="mailto:your.email@example.com" className="text-gray-300 hover:text-orange-500 transition-colors">
+                    <a href="mailto:codykesselring@gmail.com" className="text-gray-300 hover:text-orange-500 transition-colors">
                       codykesselring@gmail.com
                     </a>
                   </div>
@@ -122,7 +122,7 @@ const Contact: React.FC = () => {
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 bg-gray-800 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
-                    placeholder="your.email@example.com"
+                    placeholder="codykesselring@gmail.com"
                   />
                 </div>
                 
