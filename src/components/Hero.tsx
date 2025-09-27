@@ -12,7 +12,7 @@ const Hero: React.FC = () => {
         <div className="max-w-4xl mx-auto">
           <div className="mb-8 animate-fade-in">
             <img
-              src="./public/headshot.jpg"
+              src="/headshot.jpg"
               alt="Cody Kesselring"
               className="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto object-cover border-4 border-orange-500 transition-all duration-300 hover:scale-125 hover:shadow-2xl hover:shadow-orange-500/30 opacity-90 hover:opacity-100"            />
           </div>
@@ -37,7 +37,7 @@ const Hero: React.FC = () => {
               <Github size={24} />
             </a>
             <a
-              href="https://linkedin.com/in/yourusername"
+              href="https://linkedin.com/in/cody-kesselring/"
               target="_blank"
               rel="noopener noreferrer"
               className="p-3 bg-orange-500 text-white rounded-full hover:bg-orange-600 transition-all duration-200 hover:scale-110"
