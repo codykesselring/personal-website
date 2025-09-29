@@ -12,7 +12,7 @@ const Hero: React.FC = () => {
         <div className="max-w-4xl mx-auto">
           <div className="mb-8 animate-fade-in">
             <img
-              src="/Image/headshot.jpg"
+              src="https://www.codykesselring.com/Image/headshot.jpg"
               alt="Cody Kesselring"
               className="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto object-cover border-4 border-orange-500 transition-all duration-300 hover:scale-125 hover:shadow-2xl hover:shadow-orange-500/30 opacity-90 hover:opacity-100"            />
           </div>
