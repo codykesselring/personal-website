@@ -23,8 +23,8 @@ const Hero: React.FC = () => {
             Computer Science Student
           </p>
           <p className="text-lg text-gray-400 mb-12 max-w-2xl mx-auto animate-fade-in-delay-2">
-            Passionate about building innovative solutions and exploring the latest technologies. 
-            I love turning complex problems into elegant, user-friendly applications.
+            Passionate about improving my skills and knowledge with new technologies. 
+            I love the process of turning complex problems into simple and intuitive designs solutions.
           </p>
           
           <div className="flex justify-center space-x-6 mb-12 animate-fade-in-delay-3">

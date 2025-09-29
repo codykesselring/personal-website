@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send, Github, Linkedin } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Github, Linkedin, CheckCircle, AlertCircle } from 'lucide-react';
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -7,6 +7,8 @@ const Contact: React.FC = () => {
     email: '',
     message: ''
   });
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -15,12 +17,35 @@ const Contact: React.FC = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
-    // Reset form
-    setFormData({ name: '', email: '', message: '' });
+    setStatus('loading');
+    setErrorMessage('');
+
+    try {
+      const response = await fetch('import.meta.env.VITE_API_ENDPOINT', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+        setTimeout(() => setStatus('idle'), 5000);
+      } else {
+        setStatus('error');
+        setErrorMessage(data.error || 'Failed to send message');
+      }
+    } catch (error) {
+      setStatus('error');
+      setErrorMessage('Network error. Please try again.');
+      console.error('Error:', error);
+    }
   };
 
   return (
@@ -56,7 +81,7 @@ const Contact: React.FC = () => {
                   <Phone className="w-6 h-6 text-orange-500 mr-4" />
                   <div>
                     <p className="font-medium text-white">Phone</p>
-                    <a href="tel:+1234567890" className="text-gray-300 hover:text-orange-500 transition-colors">
+                    <a href="tel:+19075005683" className="text-gray-300 hover:text-orange-500 transition-colors">
                       +1 (907) 500-5683
                     </a>
                   </div>
@@ -94,6 +119,20 @@ const Contact: React.FC = () => {
             
             <div className="bg-gray-900 p-8 rounded-2xl border border-gray-700">
               <form onSubmit={handleSubmit} className="space-y-6">
+                {status === 'success' && (
+                  <div className="flex items-center p-4 bg-green-500/10 border border-green-500 rounded-lg">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                    <span className="text-green-500">Message sent successfully!</span>
+                  </div>
+                )}
+
+                {status === 'error' && (
+                  <div className="flex items-center p-4 bg-red-500/10 border border-red-500 rounded-lg">
+                    <AlertCircle className="w-5 h-5 text-red-500 mr-3" />
+                    <span className="text-red-500">{errorMessage}</span>
+                  </div>
+                )}
+
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
                     Name
@@ -105,7 +144,8 @@ const Contact: React.FC = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                    disabled={status === 'loading'}
+                    className="w-full px-4 py-3 bg-gray-800 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors disabled:opacity-50"
                     placeholder="Your Name"
                   />
                 </div>
@@ -121,7 +161,8 @@ const Contact: React.FC = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                    disabled={status === 'loading'}
+                    className="w-full px-4 py-3 bg-gray-800 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors disabled:opacity-50"
                     placeholder="codykesselring@gmail.com"
                   />
                 </div>
@@ -136,18 +177,32 @@ const Contact: React.FC = () => {
                     value={formData.message}
                     onChange={handleChange}
                     required
+                    disabled={status === 'loading'}
                     rows={5}
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors resize-none"
+                    className="w-full px-4 py-3 bg-gray-800 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors resize-none disabled:opacity-50"
                     placeholder="Tell me about your project or just say hello!"
                   />
                 </div>
                 
                 <button
                   type="submit"
-                  className="w-full flex items-center justify-center px-6 py-3 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 transition-all duration-200 hover:scale-105"
+                  disabled={status === 'loading'}
+                  className="w-full flex items-center justify-center px-6 py-3 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                 >
-                  <Send size={18} className="mr-2" />
-                  Send Message
+                  {status === 'loading' ? (
+                    <>
+                      <svg className="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send size={18} className="mr-2" />
+                      Send Message
+                    </>
+                  )}
                 </button>
               </form>
             </div>
