@@ -23,7 +23,7 @@ const Contact: React.FC = () => {
     setErrorMessage('');
 
     try {
-      const response = await fetch('import.meta.env.VITE_API_ENDPOINT', {
+      const response = await fetch('https://i4jyl4pnbivr2msmaw7boma57i0qnfpg.lambda-url.us-east-2.on.aws/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
